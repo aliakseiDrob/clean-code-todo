@@ -1,9 +1,9 @@
 const taskInput = document.getElementById('new-task');
-const addButton = document.getElementsByTagName('button')[0];
-const incompleteTaskHolder = document.getElementById('incompleteTasks');
-const completedTasksHolder = document.getElementById('completed-tasks');
+const addTaskButton = document.getElementsByTagName('button')[0];
+const incompleteTasksContainer = document.getElementById('incompleteTasks');
+const completedTasksContainer = document.getElementById('completed-tasks');
 
-const createNewTaskElement = function (taskString) {
+const createNewTaskElement = function (taskContent) {
   const listItem = document.createElement('li');
   const checkBox = document.createElement('input');
   const label = document.createElement('label');
@@ -12,7 +12,7 @@ const createNewTaskElement = function (taskString) {
   const deleteButton = document.createElement('button');
   const deleteButtonImg = document.createElement('img');
 
-  label.innerText = taskString;
+  label.innerText = taskContent;
   label.className = 'task';
 
   checkBox.type = 'checkbox';
@@ -34,7 +34,7 @@ const addTask = function () {
   if (!taskInput.value) return;
   const listItem = createNewTaskElement(taskInput.value);
 
-  incompleteTaskHolder.appendChild(listItem);
+  incompleteTasksContainer.appendChild(listItem);
   bindTaskEvents(listItem, taskCompleted);
 
   taskInput.value = '';
@@ -67,17 +67,17 @@ const deleteTask = function () {
 
 const taskCompleted = function () {
   const listItem = this.parentNode;
-  completedTasksHolder.appendChild(listItem);
+  completedTasksContainer.appendChild(listItem);
   bindTaskEvents(listItem, taskIncomplete);
 };
 
 const taskIncomplete = function () {
   const listItem = this.parentNode;
-  incompleteTaskHolder.appendChild(listItem);
+  incompleteTasksContainer.appendChild(listItem);
   bindTaskEvents(listItem, taskCompleted);
 };
 
-addButton.addEventListener('click', addTask);
+addTaskButton.addEventListener('click', addTask);
 
 const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   const checkBox = taskListItem.querySelector('input[type=checkbox]');
@@ -91,10 +91,10 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   checkBox.onchange = checkBoxEventHandler;
 };
 
-for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
-  bindTaskEvents(incompleteTaskHolder.children[i], taskCompleted);
+for (let i = 0; i < incompleteTasksContainer.children.length; i++) {
+  bindTaskEvents(incompleteTasksContainer.children[i], taskCompleted);
 }
 
-for (let i = 0; i < completedTasksHolder.children.length; i++) {
-  bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+for (let i = 0; i < completedTasksContainer.children.length; i++) {
+  bindTaskEvents(completedTasksContainer.children[i], taskIncomplete);
 }
